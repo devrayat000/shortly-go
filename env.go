@@ -10,7 +10,7 @@ type Env struct {
 	DatabaseUrl string
 }
 
-const dsn = "host=localhost user=postgres password=ppooii12 dbname=shortly port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+const dsn = "postgres://postgres:ppooii12@localhost:5432/shortly"
 
 func getEnv() *Env {
 	port := os.Getenv("PORT")

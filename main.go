@@ -20,7 +20,8 @@ func StartWorkers() {
 }
 
 func StartDatabase() *gorm.DB {
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	env := getEnv()
+	db, err := gorm.Open(postgres.Open(env.DatabaseUrl), &gorm.Config{})
 	if err != nil {
 		panic(fmt.Sprintf("Could not connect to database - Error: %v", err))
 	}
@@ -34,7 +35,8 @@ func StartServer(db *gorm.DB) *gin.Engine {
 	r.POST("/shorten", CreateShortUrl(db))
 	r.GET("/:shortUrl", RetrieveShortUrl(db))
 
-	if err := r.Run(":8080"); err != nil {
+	env := getEnv()
+	if err := r.Run(env.Port); err != nil {
 		panic(fmt.Sprintf("Failed to start the web server - Error: %v", err))
 	}
 
