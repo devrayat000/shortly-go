@@ -8,6 +8,7 @@ import (
 type Env struct {
 	Port        string
 	DatabaseUrl string
+	BaseUrl     string
 }
 
 const dsn = "postgres://postgres:ppooii12@localhost:5432/shortly"
@@ -23,8 +24,14 @@ func getEnv() *Env {
 		dbUrl = dsn
 	}
 
+	baseUrl := os.Getenv("RENDER_EXTERNAL_URL")
+	if baseUrl == "" {
+		baseUrl = fmt.Sprintf("http://localhost:%s", port)
+	}
+
 	return &Env{
 		Port:        fmt.Sprintf(":%s", port),
 		DatabaseUrl: dbUrl,
+		BaseUrl:     baseUrl,
 	}
 }

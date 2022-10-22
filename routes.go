@@ -11,10 +11,12 @@ import (
 )
 
 func CreateShortUrl(db *gorm.DB) gin.HandlerFunc {
+	env := getEnv()
+
 	return func(ctx *gin.Context) {
 		url := ctx.PostForm("url")
 		uuid := uniuri.NewLen(7)
-		trimmedUrl := fmt.Sprintf("http://localhost:8080/%s", uuid)
+		trimmedUrl := fmt.Sprintf("%s/%s", env.BaseUrl, uuid)
 		shortUrl := ShortUrl{
 			FullUrl:  url,
 			ShortUrl: trimmedUrl,
